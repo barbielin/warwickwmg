@@ -7,8 +7,12 @@ h2 {
 
 html,
 body {
-    margin: 0;
+    margin: 10;
     height: 100%;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 10px;
+    padding-left: 0px;
 }
 
 * {
@@ -137,6 +141,8 @@ body {
         border-bottom: 1px solid #444;
     }
 }
+
+
 
 footer {
     background: linear-gradient(to left, #f46b45, #eea849);
