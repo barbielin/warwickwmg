@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Café Library Online Order</title>
+    <script>
+        // JavaScript to calculate and update estimated wait time
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('orderForm');
+            const waitTimeDisplay = document.getElementById('waitTime');
+
+            form.addEventListener('input', updateWaitTime);
+
+            function updateWaitTime() {
+                const quantity = parseInt(form.quantity.value, 10) || 1;
+                const preparationTimePerItem = 5; // in minutes per item (you can adjust this)
+
+                const estimatedWaitTime = quantity * preparationTimePerItem;
+                waitTimeDisplay.textContent = `${estimatedWaitTime} minutes`;
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <section class="top-nav">
+        <div>
+            Warwick Coffee Online Order
+        </div>
+        <input id="menu-toggle" type="checkbox" />
+        <label class='menu-button-container' for="menu-toggle">
+            <div class='menu-button'></div>
+        </label>
+        <ul class="menu">
+            <li><form action="/home"><button type="submit">Home</button></form></li>
+            <li><form action="/CoffeeShops"><button type="submit">Coffee Shops</button></form></li>
+            <li><form action="/login"><button type="submit">Login</button></form></li>
+            <li><form action="/register"><button type="submit">Register</button></form></li>
+            <li><form action="/Contact"><button type="submit">Contact</button></form></li>
+        </ul>
+    </section>
+
+    <header>
+        <h1>Café Library</h1>
+    </header>
+    <main>
+        <section id="place_order">
+            <h2>Place Your Order</h2>
+            <form action="/place_order" method="post">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+        
+                <label for="coffeeType">Coffee Type:</label>
+                <select id="coffeeType" name="coffee_type" required>
+                    <option value="americano">Americano</option>
+                    <option value="latte">Latte</option>
+                    <!-- Add more options as needed -->
+                </select>
+        
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+        
+                <button type="submit">Order Coffee</button>
+            </form>
+        
+            <p>Estimated Wait Time: <span id="waitTime">0 minutes</span></p>
+        </section>
+        <section id="orderHistory">
+            <h2>Order History</h2>
+            <ul>
+                {% for order in orders %}
+                <li>Name: {{ order['name'] }}, Coffee Type: {{ order['coffee_type'] }}, Quantity: {{ order['quantity'] }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Café Library</p>
+    </footer>
+</body>
+
+</html>

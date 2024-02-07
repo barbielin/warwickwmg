@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Order History</title>
+</head>
+
+<body>
+    <section id="orderHistory">
+        <h2>Order History</h2>
+        <ul>
+            {% for order in orders %}
+            <li>Name: {{ order[0] }}, Coffee Type: {{ order[1] }}, Quantity: {{ order[2] }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+        <h2>Thank You for Your Order!</h2>
+        <ul>
+            {% if orders %}
+            <li>
+                <p>Name: {{ orders[-1][0] }}</p>
+                <p>Coffee Type: {{ orders[-1][1] }}</p>
+                <p>Quantity: {{ orders[-1][2] }}</p>
+            </li>
+            {% else %}
+            <li>No orders yet.</li>
+            {% endif %}
+        </ul>        
+        <p>Your order has been placed. We'll start preparing it soon.</p>
+</body>
+
+</html>

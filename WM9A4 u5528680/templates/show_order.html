@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Order Details</title>
+</head>
+<body>
+    <h2>Thank You for Your Order!</h2>
+    <ul>
+        {% if orders %}
+        <li>
+            <p>Name: {{ orders[0][0] }}</p>
+            <p>Coffee Type: {{ orders[0][1] }}</p>
+            <p>Quantity: {{ orders[0][2] }}</p>
+        </li>
+        {% else %}
+        <li>No orders yet.</li>
+        {% endif %}
+    </ul>
+
+    <p>Your order has been placed. We'll start preparing it soon.</p>
+</body>
+</html>

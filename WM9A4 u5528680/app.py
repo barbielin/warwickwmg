@@ -121,37 +121,68 @@ def init_db():
         ''')
         db.commit()
 
-@app.route('/Café Library')
-def CaféLibrary():
-    return render_template('Café Library.html')
+@app.route('/CafeLibrary')
+def CafeLibrary():
+    return render_template('CafeLibrary.html')
 
+@app.route('/orderform')
+def orderform():
+    return render_template('orderform.html')
+
+# Route to display the order form
+@app.route('/place_order', methods=['GET'])
+def show_order_form():
+    return render_template('order_form.html')
+
+# Route to handle form submission and store order in the database
 @app.route('/place_order', methods=['POST'])
 def place_order():
+    # Retrieve order details from the form
     name = request.form['name']
     coffee_type = request.form['coffee_type']
     quantity = request.form['quantity']
-    
-    db = get_db_connection()
-    cursor = db.cursor()
 
+    # Insert order details into the database
     try:
-        cursor.execute('INSERT INTO orders (name, coffee_type, quantity) VALUES (?, ?, ?)',
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO CafeLibraryOrder (name, coffee_type, quantity) VALUES (?, ?, ?)',
                        (name, coffee_type, quantity))
-        db.commit()
+        conn.commit()
         flash('Order placed successfully!')
     except sqlite3.Error as e:
-        flash('There was an issue placing your order: ' + str(e))
+        flash('Failed to place order: ' + str(e))
     finally:
         cursor.close()
-        db.close()
+        conn.close()
 
-    # Redirect to a new page or back to the form page after order placement
-    return redirect(url_for('order_form'))
+    # Redirect to the order history page after placing the order
+    return redirect(url_for('order_history'))
 
-@app.route('/order', methods=['GET'])
-def order_form():
-    # Render your order form page here
-    return render_template('order.html')
+# Route to display the order history
+@app.route('/order_history')
+def order_history():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT name, coffee_type, quantity FROM CafeLibraryOrder')
+        orders = cursor.fetchall()
+    except sqlite3.Error as e:
+        flash('Failed to retrieve order history: ' + str(e))
+        orders = []
+    finally:
+        cursor.close()
+        conn.close()
+
+    return render_template('order_history.html', orders=orders)
+
+@app.route('/show_order')
+def show_order():
+    # Retrieve order details from the request
+    name = request.args.get('name')
+    coffee_type = request.args.get('coffee_type')
+    quantity = request.args.get('quantity')
+    return render_template('show_order.html', name=name, coffee_type=coffee_type, quantity=quantity)
 
 if __name__ == "__main__":
     init_db()
