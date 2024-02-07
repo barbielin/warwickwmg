@@ -4,7 +4,33 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
-    <link rel="stylesheet" href="register.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+    <section class="top-nav">
+        <div>
+            Warwick Coffee Online Order
+        </div>
+        <input id="menu-toggle" type="checkbox" />
+        <label class='menu-button-container' for="menu-toggle">
+            <div class='menu-button'></div>
+        </label>
+        <ul class="menu">
+            <li>
+                <form action="/home"><button type="submit">Home</button></form>
+            </li>
+            <li>
+                <form action="/CoffeeShops"><button type="submit">Coffee Shops</button></form>
+            </li>
+            <li>
+                <form action="/login"><button type="submit">Login</button></form>
+            </li>
+            <li>
+                <form action="/register"><button type="submit">Register</button></form>
+            </li>
+            <li>
+                <form action="/Contact"><button type="submit">Contact</button></form>
+            </li>
+        </ul>
+    </section>
 </head>
 
 <body>
@@ -20,10 +46,6 @@
             <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
             <hr>
             <button type="submit" class="loginbtn">Submit</button>
-        </div>
-
-        <div class="container signin">
-            <p>Don't have an account? <a href="/register">Register</a>.</p>
         </div>
     </form>
 

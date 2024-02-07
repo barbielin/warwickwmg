@@ -31,9 +31,13 @@ def close_connection(exception):
 # Using that URL causes the function immediately after the @app.route(...) line to run.
 # THIS ROUTE IS TO PROVE THE FLASK SETUP WORKS.
 # YOU SHOULD REPLACE IT WITH YOUR OWN CONTENT.
-
 @app.route("/")
-def hello():
+def Hello():
+    """Return some friendly text."""
+    return "Hi"
+
+@app.route("/Contact")
+def Contact():
     """Return some friendly text."""
     return "Hello, Barbie"
 
@@ -41,6 +45,10 @@ def hello():
 import getpass
 # Dictionaries for storing data
 users = {}  # username: password
+
+@app.route('/home')
+def home():
+    return render_template('home.html')
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -94,7 +102,6 @@ def login():
 
     return render_template('login.html')
 
-
 @app.route('/CoffeeShops')
 def CoffeeShops():
     return render_template('CoffeeShops.html')
@@ -113,6 +120,38 @@ def init_db():
             );
         ''')
         db.commit()
+
+@app.route('/Café Library')
+def CaféLibrary():
+    return render_template('Café Library.html')
+
+@app.route('/place_order', methods=['POST'])
+def place_order():
+    name = request.form['name']
+    coffee_type = request.form['coffee_type']
+    quantity = request.form['quantity']
+    
+    db = get_db_connection()
+    cursor = db.cursor()
+
+    try:
+        cursor.execute('INSERT INTO orders (name, coffee_type, quantity) VALUES (?, ?, ?)',
+                       (name, coffee_type, quantity))
+        db.commit()
+        flash('Order placed successfully!')
+    except sqlite3.Error as e:
+        flash('There was an issue placing your order: ' + str(e))
+    finally:
+        cursor.close()
+        db.close()
+
+    # Redirect to a new page or back to the form page after order placement
+    return redirect(url_for('order_form'))
+
+@app.route('/order', methods=['GET'])
+def order_form():
+    # Render your order form page here
+    return render_template('order.html')
 
 if __name__ == "__main__":
     init_db()

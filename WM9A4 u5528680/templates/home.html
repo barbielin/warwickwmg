@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Warwick Coffee Online Order</title>
     <section class="top-nav">
         <div>
@@ -15,11 +15,11 @@
             <div class='menu-button'></div>
         </label>
         <ul class="menu">
-            <li><a href="home.html">Home</a></li>
-            <li><a href="Coffee shops page.html">Coffee shops</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="register.html">Join now</a></li>
-            <li>Contact</li>
+            <li><form action="/home"><button type="submit">Home</button></form></li>
+            <li><form action="/CoffeeShops"><button type="submit">Coffee Shops</button></form></li>
+            <li><form action="/login"><button type="submit">Login</button></form></li>
+            <li><form action="/register"><button type="submit">Register</button></form></li>
+            <li><form action="/Contact"><button type="submit">Contact</button></form></li>
         </ul>
     </section>
 </head>

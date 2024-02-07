@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Warwick Coffee Online Order_Café Library</title>
+</head>
+
+<body>
+    <section class="top-nav">
+        <div>
+            Warwick Coffee Online Order
+        </div>
+        <input id="menu-toggle" type="checkbox" />
+        <label class='menu-button-container' for="menu-toggle">
+            <div class='menu-button'></div>
+        </label>
+        <ul class="menu">
+            <li><form action="/home"><button type="submit">Home</button></form></li>
+            <li><form action="/CoffeeShops"><button type="submit">Coffee Shops</button></form></li>
+            <li><form action="/login"><button type="submit">Login</button></form></li>
+            <li><form action="/register"><button type="submit">Register</button></form></li>
+            <li><form action="/Contact"><button type="submit">Contact</button></form></li>
+        </ul>
+    </section>
+
+    <header>
+        <h1>Café Library</h1>
+    </header>
+    <main>
+        <section id="Description">
+            <h2>Introduction</h2>
+
+        </section>
+        <section id="menu">
+            <h2>Menu</h2>
+            <ul>
+                <li>
+                    <h3>Americano</h3>
+                    <p class="price">$2.50</p>
+                </li>
+                <li>
+                    <h3>Latte</h3>
+                    <p class="price">$3.00</p>
+                </li>
+                <!-- Add more items as needed -->
+            </ul>
+        </section>
+        <form action="/order"><button type="submit">Order Coffee</button></form>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Café Library</p>
+    </footer>
+</body>
+
+</html>
