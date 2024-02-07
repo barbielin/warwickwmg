@@ -26,7 +26,6 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
-
 # Each @app.route(...) indicates a URL.
 # Using that URL causes the function immediately after the @app.route(...) line to run.
 # THIS ROUTE IS TO PROVE THE FLASK SETUP WORKS.
@@ -84,12 +83,12 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
+        student_id = request.form['student_id']
         password = request.form['psw']
 
         db = get_db_connection()
         cursor = db.cursor()
-        cursor.execute('SELECT password FROM users WHERE email = ?', (email,))
+        cursor.execute('SELECT password FROM users WHERE student_id = ?', (student_id,))
         user = cursor.fetchone()
 
         if user and user[0] == password:
@@ -129,27 +128,43 @@ def CafeLibrary():
 def orderform():
     return render_template('orderform.html')
 
+
+
 # Route to display the order form
 @app.route('/place_order', methods=['GET'])
 def show_order_form():
     return render_template('order_form.html')
 
+def predict_waiting_time(orders_ahead):
+    average_prep_time = 5  # Average preparation time per order in minutes
+    return average_prep_time * orders_ahead
+
 # Route to handle form submission and store order in the database
 @app.route('/place_order', methods=['POST'])
 def place_order():
     # Retrieve order details from the form
-    name = request.form['name']
+    student_id = request.form['student_id']
     coffee_type = request.form['coffee_type']
     quantity = request.form['quantity']
-
     # Insert order details into the database
+    if request.method == 'POST':
+        if 'orders_ahead' not in session:
+            session['orders_ahead'] = 0  # Initialize if not set
+        session['orders_ahead'] += 1  # Increment orders ahead for each order placed
+        
+        # Calculate waiting time
+        average_prep_time = 5  # Average preparation time per order in minutes
+        waiting_time = session['orders_ahead'] * average_prep_time
+        # Here you would normally insert the order details into your database
+        flash(f'Order placed successfully! Estimated waiting time is {waiting_time} minutes.')
+
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('INSERT INTO CafeLibraryOrder (name, coffee_type, quantity) VALUES (?, ?, ?)',
-                       (name, coffee_type, quantity))
+        cursor.execute('INSERT INTO CafeLibraryOrder (student_id, coffee_type, quantity) VALUES (?, ?, ?)',
+                       (student_id, coffee_type, quantity))
         conn.commit()
-        flash('Order placed successfully!')
+
     except sqlite3.Error as e:
         flash('Failed to place order: ' + str(e))
     finally:
@@ -165,7 +180,7 @@ def order_history():
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT name, coffee_type, quantity FROM CafeLibraryOrder')
+        cursor.execute('SELECT student_id, coffee_type, quantity FROM CafeLibraryOrder')
         orders = cursor.fetchall()
     except sqlite3.Error as e:
         flash('Failed to retrieve order history: ' + str(e))
@@ -179,10 +194,11 @@ def order_history():
 @app.route('/show_order')
 def show_order():
     # Retrieve order details from the request
-    name = request.args.get('name')
+    student_id = request.args.get('student_id')
     coffee_type = request.args.get('coffee_type')
     quantity = request.args.get('quantity')
-    return render_template('show_order.html', name=name, coffee_type=coffee_type, quantity=quantity)
+    return render_template('show_order.html', student_id=student_id, coffee_type=coffee_type, quantity=quantity)
+
 
 if __name__ == "__main__":
     init_db()

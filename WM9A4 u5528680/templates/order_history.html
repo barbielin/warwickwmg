@@ -13,23 +13,29 @@
         <h2>Order History</h2>
         <ul>
             {% for order in orders %}
-            <li>Name: {{ order[0] }}, Coffee Type: {{ order[1] }}, Quantity: {{ order[2] }}</li>
+            <li>Student ID: {{ order[0] }}, Coffee Type: {{ order[1] }}, Quantity: {{ order[2] }}</li>
             {% endfor %}
         </ul>
     </section>
-        <h2>Thank You for Your Order!</h2>
-        <ul>
-            {% if orders %}
-            <li>
-                <p>Name: {{ orders[-1][0] }}</p>
-                <p>Coffee Type: {{ orders[-1][1] }}</p>
-                <p>Quantity: {{ orders[-1][2] }}</p>
-            </li>
-            {% else %}
-            <li>No orders yet.</li>
-            {% endif %}
-        </ul>        
-        <p>Your order has been placed. We'll start preparing it soon.</p>
+    <h2>Thank You for Your Order!</h2>
+    <ul>
+        {% if orders %}
+        <li>
+            <p>Student ID: {{ orders[-1][0] }}</p>
+            <p>Coffee Type: {{ orders[-1][1] }}</p>
+            <p>Quantity: {{ orders[-1][2] }}</p>
+        </li>
+        {% else %}
+        <li>No orders yet.</li>
+        {% endif %}
+    </ul>
+    {% with messages = get_flashed_messages(with_categories=false) %}{% if messages %}
+    <div class="message">
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}{% endwith %}
 </body>
 
 </html>
