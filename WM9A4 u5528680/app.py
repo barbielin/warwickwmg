@@ -3,7 +3,9 @@ import sqlite3
 import os
 from markupsafe import escape
 import datetime
+from datetime import datetime
 from flask import Flask, render_template, request, url_for, flash,redirect, g, session
+app = Flask(__name__, template_folder='path/to/your/templates')
 
 app = Flask(__name__)
 app.secret_key='your_secret_key'
@@ -95,7 +97,7 @@ def login():
             flash("Login successful.")
             return redirect(url_for('CoffeeShops'))
         else:
-            flash("Invalid email or password.")
+            flash("Invalid Student ID or password.")
 
         cursor.close()
 
@@ -146,10 +148,16 @@ def place_order():
     student_id = request.form['student_id']
     coffee_type = request.form['coffee_type']
     quantity = request.form['quantity']
+    
     # Insert order details into the database
     if request.method == 'POST':
-        if 'orders_ahead' not in session:
-            session['orders_ahead'] = 0  # Initialize if not set
+        # Check if it's a new day to reset orders_ahead
+        current_date = datetime.now().date()
+        last_order_date = session.get('last_order_date', None)
+        if last_order_date is None or datetime.strptime(last_order_date, '%Y-%m-%d').date() < current_date:
+            session['orders_ahead'] = 0  # Reset for a new day
+            session['last_order_date'] = current_date.strftime('%Y-%m-%d')
+
         session['orders_ahead'] += 1  # Increment orders ahead for each order placed
         
         # Calculate waiting time
@@ -172,11 +180,11 @@ def place_order():
         conn.close()
 
     # Redirect to the order history page after placing the order
-    return redirect(url_for('order_history'))
+    return redirect(url_for('show_order'))
 
 # Route to display the order history
-@app.route('/order_history')
-def order_history():
+@app.route('/show_order')
+def show_order():
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -189,16 +197,7 @@ def order_history():
         cursor.close()
         conn.close()
 
-    return render_template('order_history.html', orders=orders)
-
-@app.route('/show_order')
-def show_order():
-    # Retrieve order details from the request
-    student_id = request.args.get('student_id')
-    coffee_type = request.args.get('coffee_type')
-    quantity = request.args.get('quantity')
-    return render_template('show_order.html', student_id=student_id, coffee_type=coffee_type, quantity=quantity)
-
+    return render_template('show_order.html', orders=orders)
 
 if __name__ == "__main__":
     init_db()

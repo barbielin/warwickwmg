@@ -1,24 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Order Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Your Order</title>
+    <section class="top-nav">
+      <div>
+          Warwick Coffee Online Order
+      </div>
+      <input id="menu-toggle" type="checkbox" />
+      <label class='menu-button-container' for="menu-toggle">
+          <div class='menu-button'></div>
+      </label>
+      <ul class="menu">
+          <li><form action="/home"><button type="submit">Home</button></form></li>
+          <li><form action="/CoffeeShops"><button type="submit">Coffee Shops</button></form></li>
+          <li><form action="/login"><button type="submit">Login</button></form></li>
+          <li><form action="/register"><button type="submit">Register</button></form></li>
+          <li><form action="/Contact"><button type="submit">Contact</button></form></li>
+      </ul>
+    </section>
 </head>
+
 <body>
     <h2>Thank You for Your Order!</h2>
     <ul>
         {% if orders %}
-        <li>
-            <p>Student ID: {{ orders[0][0] }}</p>
-            <p>Coffee Type: {{ orders[0][1] }}</p>
-            <p>Quantity: {{ orders[0][2] }}</p>
-        </li>
+          <p>Student ID: {{ orders[-1][0] }}</p>
+          <p>Coffee Type: {{ orders[-1][1] }}</p>
+          <p>Quantity: {{ orders[-1][2] }}</p>
         {% else %}
         <li>No orders yet.</li>
         {% endif %}
     </ul>
-
-    <p>Your order has been placed. We'll start preparing it soon.</p>
+    {% with messages = get_flashed_messages(with_categories=false) %}{% if messages %}
+    <div class="message">
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}{% endwith %}
+  
 </body>
+
 </html>

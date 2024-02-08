@@ -4,11 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
     <title>Café Library Online Order</title>
-</head>
-
-<body>
     <section class="top-nav">
         <div>
             Warwick Coffee Online Order
@@ -18,31 +15,23 @@
             <div class='menu-button'></div>
         </label>
         <ul class="menu">
-            <li>
-                <form action="/home"><button type="submit">Home</button></form>
-            </li>
-            <li>
-                <form action="/CoffeeShops"><button type="submit">Coffee Shops</button></form>
-            </li>
-            <li>
-                <form action="/login"><button type="submit">Login</button></form>
-            </li>
-            <li>
-                <form action="/register"><button type="submit">Register</button></form>
-            </li>
-            <li>
-                <form action="/Contact"><button type="submit">Contact</button></form>
-            </li>
+            <li><form action="/home"><button type="submit">Home</button></form></li>
+            <li><form action="/CoffeeShops"><button type="submit">Coffee Shops</button></form></li>
+            <li><form action="/login"><button type="submit">Login</button></form></li>
+            <li><form action="/register"><button type="submit">Register</button></form></li>
+            <li><form action="/Contact"><button type="submit">Contact</button></form></li>
         </ul>
     </section>
+</head>
 
-    <header>
-        <h1>Café Library</h1>
-    </header>
+<body>
     <main>
         <section id="place_order">
-            <h2>Place Your Order</h2>
             <form action="/place_order" method="post">
+                <div class="container">
+                    <h1>Café Library</h1>
+                    <h2>Place Your Order</h2>
+                <hr>
                 <label for="student_id">Student ID:</label>
                 <input type="text" id="student_id" name="student_id" required>
 
@@ -50,21 +39,28 @@
                 <select id="coffeeType" name="coffee_type" required>
                     <option value="americano">Americano</option>
                     <option value="latte">Latte</option>
+                    <option value="espresso">Espresso</option>
+                    <option value="cappuccino">Cappuccino</option>
+                    <option value="flat_white">Flat White</option>
+                    <option value="macchiato">Macchiato</option>
+                    <option value="mocha">Mocha</option>
+                    <option value="ristretto">Ristretto</option>
+                    <option value="cafe_au_lait">Café au Lait</option>
+                    <option value="Matcha">Matcha</option>
+                    <option value="cold_brew">Cold Brew Coffee</option>
+                    <option value="affogato">Affogato</option>
+
                     <!-- Add more options as needed -->
                 </select>
 
                 <label for="quantity">Quantity:</label>
                 <input type="number" id="quantity" name="quantity" min="1" value="1" required>
-
-                <button type="submit">Order Coffee</button>
-            </form>
-
+                <hr>
+                <button type="submit" class="orderbtn">Order Coffee</button>
+            </div>
+        </form>
         </section>
     </main>
-
-    <footer>
-        <p>&copy; 2024 Café Library</p>
-    </footer>
 </body>
 
 </html>

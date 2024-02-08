@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Warwick Coffee Online Order_Café Library</title>
-</head>
-
-<body>
     <section class="top-nav">
         <div>
             Warwick Coffee Online Order
@@ -18,21 +15,25 @@
             <div class='menu-button'></div>
         </label>
         <ul class="menu">
-            <li><form action="/home"><button type="submit">Home</button></form></li>
-            <li><form action="/CoffeeShops"><button type="submit">Coffee Shops</button></form></li>
-            <li><form action="/login"><button type="submit">Login</button></form></li>
-            <li><form action="/register"><button type="submit">Register</button></form></li>
-            <li><form action="/Contact"><button type="submit">Contact</button></form></li>
+            <li><form action="/home"><button type="submit">Home</button></form>
+            </li>
+            <li><form action="/CoffeeShops"><button type="submit">Coffee Shops</button></form>
+            </li>
+            <li><form action="/login"><button type="submit">Login</button></form>
+            </li>
+            <li><form action="/register"><button type="submit">Register</button></form>
+            </li>
+            <li><form action="/Contact"><button type="submit">Contact</button></form>
+            </li>
         </ul>
     </section>
+</head>
 
-    <header>
-        <h1>Café Library</h1>
-    </header>
+<body>
+    <h1>Café Library</h1>
     <main>
         <section id="Description">
             <h2>Introduction</h2>
-
         </section>
         <section id="menu">
             <h2>Menu</h2>
@@ -45,6 +46,46 @@
                     <h3>Latte</h3>
                     <p class="price">$3.00</p>
                 </li>
+                <li>
+                    <h3>Espresso</h3>
+                    <p class="price">$2.00</p>
+                </li>
+                <li>
+                    <h3>Cappuccino</h3>
+                    <p class="price">$3.50</p>
+                </li>
+                <li>
+                    <h3>Flat White</h3>
+                    <p class="price">$3.50</p>
+                </li>
+                <li>
+                    <h3>Macchiato</h3>
+                    <p class="price">$2.75</p>
+                </li>
+                <li>
+                    <h3>Mocha</h3>
+                    <p class="price">$4.00</p>
+                </li>
+                <li>
+                    <h3>Ristretto</h3>
+                    <p class="price">$2.25</p>
+                </li>
+                <li>
+                    <h3>Café au Lait</h3>
+                    <p class="price">$2.50</p>
+                </li>
+                <li>
+                    <h3>Matcha</h3>
+                    <p class="price">$3.00</p>
+                </li>
+                <li>
+                    <h3>Cold Brew Coffee</h3>
+                    <p class="price">$3.50</p>
+                </li>
+                <li>
+                    <h3>Affogato</h3>
+                    <p class="price">$4.50</p>
+                </li>
                 <!-- Add more items as needed -->
             </ul>
         </section>
@@ -54,6 +95,7 @@
     <footer>
         <p>&copy; 2024 Café Library</p>
     </footer>
+    
 </body>
 
 </html>

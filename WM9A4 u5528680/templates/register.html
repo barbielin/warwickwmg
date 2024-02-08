@@ -34,7 +34,15 @@
 </head>
 
 <body>
-
+    <section>
+        {% with messages = get_flashed_messages(with_categories=false) %}{% if messages %}
+        <div class="message">
+        {% for message in messages %}
+    <p>{{ message }}</p>
+        {% endfor %}
+        </div>
+    {% endif %}{% endwith %}
+    </section>
     <form action="/register" method="post">
         <div class="container">
             <h1>Register</h1>
@@ -60,6 +68,7 @@
             <button type="submit" class="registerbtn">Register</button>
         </div>
     </form>
+    
 
 </body>
 

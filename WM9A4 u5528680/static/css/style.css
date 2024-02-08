@@ -7,11 +7,11 @@ h2 {
 
 html,
 body {
-    margin: 10;
     height: 100%;
+    margin: 0;
     padding-top: 0px;
     padding-right: 0px;
-    padding-bottom: 10px;
+    padding-bottom: 0px;
     padding-left: 0px;
 }
 
@@ -142,11 +142,11 @@ body {
     }
 }
 
-
-
 footer {
     background: linear-gradient(to left, #f46b45, #eea849);
     color: #fff;
     text-align: center;
-    padding: 1em;
+    padding: 0.5em;
+    width: 100%;
+    position: bottom;
 }

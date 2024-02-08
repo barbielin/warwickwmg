@@ -38,6 +38,15 @@
 
     <main>
         <section>
+            {% with messages = get_flashed_messages(with_categories=false) %}{% if messages %}
+            <div class="message">
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}{% endwith %}
+        </section>
+        <section>
             <h2>Select a Coffee shop</h2>
         </section>
         <section class="coffee-shop">
