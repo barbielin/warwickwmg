@@ -59,27 +59,22 @@ def register():
         student_id = request.form['Student ID']
         password = request.form['psw']
         repeat_password = request.form['psw-repeat']
-
         if password != repeat_password:
             flash("Registration error. Passwords do not match.")
             return redirect(url_for('register'))
-
         db = get_db_connection()
         cursor = db.cursor()
-
         try:
             cursor.execute('INSERT INTO users (email, username, student_id, password, repeat_password) VALUES (?, ?, ?, ?, ?)', 
                            (email, username, student_id, password, repeat_password))
             db.commit()
             flash("Registration successful. Please login.")
             return redirect(url_for('login'))
-
         except sqlite3.IntegrityError:
             flash("Registration error. Email already used.")
             return redirect(url_for('register'))
         finally:
             cursor.close()
-
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -144,12 +139,9 @@ def predict_waiting_time(orders_ahead):
 # Route to handle form submission and store order in the database
 @app.route('/place_order', methods=['POST'])
 def place_order():
-    # Retrieve order details from the form
     student_id = request.form['student_id']
     coffee_type = request.form['coffee_type']
     quantity = request.form['quantity']
-    
-    # Insert order details into the database
     if request.method == 'POST':
         # Check if it's a new day to reset orders_ahead
         current_date = datetime.now().date()
@@ -157,29 +149,21 @@ def place_order():
         if last_order_date is None or datetime.strptime(last_order_date, '%Y-%m-%d').date() < current_date:
             session['orders_ahead'] = 0  # Reset for a new day
             session['last_order_date'] = current_date.strftime('%Y-%m-%d')
-
         session['orders_ahead'] += 1  # Increment orders ahead for each order placed
-        
-        # Calculate waiting time
         average_prep_time = 5  # Average preparation time per order in minutes
         waiting_time = session['orders_ahead'] * average_prep_time
-        # Here you would normally insert the order details into your database
         flash(f'Order placed successfully! Estimated waiting time is {waiting_time} minutes.')
-
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute('INSERT INTO CafeLibraryOrder (student_id, coffee_type, quantity) VALUES (?, ?, ?)',
                        (student_id, coffee_type, quantity))
         conn.commit()
-
     except sqlite3.Error as e:
         flash('Failed to place order: ' + str(e))
     finally:
         cursor.close()
         conn.close()
-
-    # Redirect to the order history page after placing the order
     return redirect(url_for('show_order'))
 
 # Route to display the order history
